@@ -3,8 +3,9 @@ from PIL import Image
 import numpy as np
 import joblib
 
-# Load model
-model = joblib.load("cnn_model.h5")
+import tensorflow as tf
+model = tf.keras.models.load_model("cnn_model.h5")
+
 
 # Labels (same order as your model output)
 labels = ['Surprise','Fear','Yuck','Happy','Sad','Angry','no']
@@ -36,3 +37,4 @@ if camera is not None:
 
     st.subheader("Predicted Emotion:")
     st.write(f"### 😃 {emotion}")
+
