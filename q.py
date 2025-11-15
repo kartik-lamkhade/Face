@@ -1,40 +1,37 @@
 import streamlit as st
-import cv2
+from PIL import Image
 import numpy as np
 import joblib
 
-# Load CNN Model
+# Load model
 model = joblib.load("CNN_11.pkl")
 
-# Define labels (order must match your model's output)
+# Labels (same order as your model output)
 labels = ['Surprise','Fear','Yuck','Happy','Sad','Angry','no']
 
-st.title("Emotion Detection Using CNN (100x100 Input)")
+st.title("Emotion Detection Using CNN ")
 st.write("Capture a photo to predict your emotion.")
 
 camera = st.camera_input("Take a picture")
 
 if camera is not None:
 
-    # Convert picture to numpy
-    img_bytes = camera.getvalue()
-    img_array = np.frombuffer(img_bytes, np.uint8)
-    img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+    # Read image from camera
+    img = Image.open(camera).convert("RGB")
 
-    # Convert BGR → RGB
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # Resize for model
+    img_resized = img.resize((100, 100))
 
-    # Resize to model input
-    img_resized = cv2.resize(img, (100, 100)).astype('float32') / 255.0
+    # Convert to numpy + normalize
+    img_array = np.array(img_resized).astype("float32") / 255.0
 
     # Add batch dimension
-    img_resized = np.expand_dims(img_resized, axis=0)
+    img_array = np.expand_dims(img_array, axis=0)
 
     # Predict
-    prediction = model.predict(img_resized)
+    prediction = model.predict(img_array)
     class_id = np.argmax(prediction)
 
-    # Final emotion
     emotion = labels[class_id]
 
     st.subheader("Predicted Emotion:")
