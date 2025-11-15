@@ -4,7 +4,7 @@ import numpy as np
 import joblib
 
 # Load model
-model = joblib.load("CNN_11.pkl")
+model = joblib.load("cnn_model.h5")
 
 # Labels (same order as your model output)
 labels = ['Surprise','Fear','Yuck','Happy','Sad','Angry','no']
