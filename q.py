@@ -8,7 +8,7 @@ model = tf.keras.models.load_model("cnn_model.h5")
 
 
 # Labels (same order as your model output)
-labels = ['Surprise','Fear','Yuck','Happy','Sad','Angry','no']
+labels = ['Surprise','Fear','Yuck','Sad','Happy','Angry','no']
 
 st.title("Emotion Detection Using CNN ")
 st.write("Capture a photo to predict your emotion.")
@@ -37,4 +37,5 @@ if camera is not None:
 
     st.subheader("Predicted Emotion:")
     st.write(f"### 😃 {emotion}")
+
 
