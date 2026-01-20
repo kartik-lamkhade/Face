@@ -3,7 +3,11 @@ from PIL import Image
 import numpy as np
 
 import tensorflow as tf
-model = tf.keras.models.load_model("model.keras")
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model("model.keras")
+
+model = load_model()
 
 st.title("Emotion Detection Using CNN ")
 st.write("Capture a photo to predict your emotion.")
@@ -34,4 +38,5 @@ if camera is not None:
         st.success("Suprise")
     else:
         pass
+
 
